@@ -3,9 +3,9 @@ import { StyleSheet, Text, View } from "react-native"
 const ToDo = (props) => {
     return (
         <View style={styles.toDoWrapper}>
-            <Text style={styles.toDoTitle}>{props.toDo.item.note}</Text>
-            <Text style={styles.scheduledDate}>Scheduled to: {props.toDo.item.date}</Text>
-            
+            <Text style={styles.toDoTitle}>{props.toDo.note}</Text>
+            <Text style={styles.scheduledDate}>Scheduled to: {props.toDo.date}</Text>
+            {props.toDo.doneAt && (<Text>Done at: {props.toDo.doneAt} </Text>)}
         </View>
     )
 }
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
         color: '#4B0082',
         fontSize: 17,
-        fontWeight: '500',
+        fontWeight: '400',
         fontStyle: 'italic',
     }
 })
