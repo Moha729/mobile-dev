@@ -2,11 +2,13 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { WelcomeBar } from './components/WelcomeBar';
+import { ToDos } from './components/ToDos';
 
 export default function App() {
   return (
     <View>
       <WelcomeBar />
+      <ToDos />
     </View>
   );
 }
