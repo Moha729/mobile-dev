@@ -5,7 +5,7 @@ import { WelcomeBar } from './components/WelcomeBar';
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <View>
       <WelcomeBar />
     </View>
   );
