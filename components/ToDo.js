@@ -1,15 +1,22 @@
-import { StyleSheet, Text, View } from "react-native"
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 
 const ToDo = (props) => {
+
+    const goToEdit = () => {
+        props.navigation.navigate('EditToDo', { toDo: props.toDo})
+    }
     return (
-        <View style={styles.toDoWrapper}>
-            <Text style={styles.toDoTitle}>{props.toDo.note}</Text>
-            <Text style={styles.scheduledDate}>Scheduled to: {props.toDo.date}</Text>
-            {props.toDo.doneAt && (<Text>Done at: {props.toDo.doneAt} </Text>)}
-        </View>
+        <TouchableOpacity onPress={goToEdit}>
+            <View style={styles.toDoWrapper}>
+                <Text style={styles.toDoTitle}>{props.toDo.note}</Text>
+                <Text style={styles.scheduledDate}>Scheduled to: {props.toDo.date}</Text>
+                {props.toDo.doneAt && (<Text>Done at: {props.toDo.doneAt} </Text>)}
+            </View>
+        </TouchableOpacity>
     )
 }
-
+//I want to make each item clickable which sends us to a new page with the information about the toDo, where it 
+//is possible to edit the text, the date, and register as done or unregister, and in a confirm case delete
 export {ToDo}
 
 const styles = StyleSheet.create({

@@ -25,7 +25,7 @@ const ToDos = (props) => {
                         data={data}
                         renderItem={(todo) => {
                             return (
-                                <ToDo toDo={todo.item} />
+                                <ToDo toDo={todo.item} navigation={props.navigation} />
                             )
                         }}
                     />
