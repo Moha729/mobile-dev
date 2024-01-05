@@ -1,13 +1,12 @@
 import { View, Text, StyleSheet, TextInput } from "react-native"
 import { Button } from "../uicomponents/Button"
 
-import DateTimePicker from '@react-native-community/datetimepicker'
 import { useState } from "react"
 import { ToDo } from "./ToDo"
 
-import { addDoc, collection } from "firebase/firestore"
-import { database } from "../firebase"
 import { InputField } from "../uicomponents/InputField"
+import { addToFirebase } from "../utils/databaseConnection"
+import { DatePicker } from "../utils/DatePicker"
 
 
 const NewToDo = (props) => {
@@ -34,63 +33,23 @@ const NewToDo = (props) => {
 
 const NewTodoForm = (props) => {
 
-    const [showPicker, setShowPicker] = useState(false)
-    const [readyToConfirm, setReadyToConfirm] = useState(false)
-    const [newToDo, setNewToDo] = useState(null)
-
-    const [toDoDate, setToDoDate] = useState(new Date())
-    const [formattedDate, setFormattedDate] = useState('')
+    const [formattedDate, setFormattedDate] = useState(null)
     const [toDoText, setToDoText] = useState('')
 
-    const togglePicker = () => {
-        setShowPicker(!showPicker)
-    }
-
-    const onDateChange = (event, selectedDate) => {
-        
-        setToDoDate(selectedDate)
-        
-        let dateString = selectedDate.getDate()+'-' + selectedDate.toLocaleString('default', { month: 'short' })+'-' + selectedDate.getFullYear()
-        setFormattedDate(dateString)
-        
-
-        setNewToDo(
-            {
-                note: toDoText,
-                date: formattedDate
-            }
-            
-            ) 
-            setShowPicker(false)
-            setReadyToConfirm(true)
-    }
-
-    const persistData = async () => {
-        await addDoc(collection(database, 'notes'), {
-            note: newToDo.note,
-            date: newToDo.date
-        }, props.setShowNewToDo(false))
-    }
 
     return (
         <View style={styles.viewItems}>
 
             <InputField setText={setToDoText} />
 
-            <Button text={'next'} function={togglePicker} />
+            <DatePicker buttonText={'next'} setFormattedDate={setFormattedDate} />
 
-            {showPicker && (<DateTimePicker
-                value={toDoDate}
-                mode="date"
-                display="default"
-                onChange={onDateChange}
-            />)}
 
-            {readyToConfirm && (
+            {formattedDate && (
                 <>
-                    <ToDo toDo={newToDo}/>
+                    <ToDo toDo={{note: toDoText, date: formattedDate}}/>
 
-                    <Button text={'finish'} function={persistData} />
+                    <Button text={'finish'} function={() => addToFirebase(toDoText, formattedDate)} />
                 </>
             )}
 
