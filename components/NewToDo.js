@@ -7,6 +7,7 @@ import { ToDo } from "./ToDo"
 
 import { addDoc, collection } from "firebase/firestore"
 import { database } from "../firebase"
+import { InputField } from "../uicomponents/InputField"
 
 
 const NewToDo = (props) => {
@@ -34,10 +35,11 @@ const NewToDo = (props) => {
 const NewTodoForm = (props) => {
 
     const [showPicker, setShowPicker] = useState(false)
-    const [toDoReady, setToDoReady] = useState(false)
+    const [readyToConfirm, setReadyToConfirm] = useState(false)
     const [newToDo, setNewToDo] = useState(null)
 
     const [toDoDate, setToDoDate] = useState(new Date())
+    const [formattedDate, setFormattedDate] = useState('')
     const [toDoText, setToDoText] = useState('')
 
     const togglePicker = () => {
@@ -46,18 +48,21 @@ const NewTodoForm = (props) => {
 
     const onDateChange = (event, selectedDate) => {
         
-        let dateString = selectedDate.getDate()+'-' + selectedDate.toLocaleString('default', { month: 'short' })+'-' + selectedDate.getFullYear()
-        console.log(dateString);
         setToDoDate(selectedDate)
+        
+        let dateString = selectedDate.getDate()+'-' + selectedDate.toLocaleString('default', { month: 'short' })+'-' + selectedDate.getFullYear()
+        setFormattedDate(dateString)
+        
 
-        setToDoReady(true)
         setNewToDo(
             {
                 note: toDoText,
-                date: dateString
+                date: formattedDate
             }
-
-        ) 
+            
+            ) 
+            setShowPicker(false)
+            setReadyToConfirm(true)
     }
 
     const persistData = async () => {
@@ -69,7 +74,8 @@ const NewTodoForm = (props) => {
 
     return (
         <View style={styles.viewItems}>
-            <TextInput style={styles.inputField} onChangeText={(txt) => setToDoText(txt)} />
+
+            <InputField setText={setToDoText} />
 
             <Button text={'next'} function={togglePicker} />
 
@@ -80,7 +86,7 @@ const NewTodoForm = (props) => {
                 onChange={onDateChange}
             />)}
 
-            {toDoReady && (
+            {readyToConfirm && (
                 <>
                     <ToDo toDo={newToDo}/>
 
@@ -100,19 +106,4 @@ const styles = StyleSheet.create({
     viewItems: {
         alignItems: 'center'
     },
-    inputField: {
-        borderColor: '#4B0082',
-        borderWidth: 2,
-        borderRadius: 10,
-        width: 250,
-        marginTop: 20,
-        height: 45,
-        padding: 10,
-        backgroundColor: '#E6E6FA',
-        fontSize: 20,
-        color: '#2F4F4F',
-        fontStyle: 'italic',
-        fontWeight: '500'
-
-    }
 })
