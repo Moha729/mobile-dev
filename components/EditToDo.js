@@ -3,7 +3,7 @@ import { WelcomeBar } from "./WelcomeBar"
 import { InputField } from "../uicomponents/InputField"
 import { useState } from "react"
 import { Button } from "../uicomponents/Button"
-import { updateToFirebase } from "../utils/databaseConnection"
+import { deleteFromFirebase, updateToFirebase } from "../utils/databaseConnection"
 import { DatePicker } from "../utils/DatePicker"
 import { ToDo } from "./ToDo"
 
@@ -19,6 +19,10 @@ const EditToDo = (props) => {
 
     const [doneDate, setDoneDate] = useState(null)
 
+    const goBackToHome = () => {
+        props.navigation.navigate('Main')
+    }
+
     const updateDoc = () => {
         const id = toDo.id
         let note = newText || toDo.note
@@ -26,7 +30,11 @@ const EditToDo = (props) => {
         //let done = doneDate || toDo?.doneDate
 
         updateToFirebase(id, note, date)
+
+        goBackToHome()
     }
+
+    const setAsDone = () => {}
 
     return (
         <View style={styles.background}>
@@ -39,6 +47,13 @@ const EditToDo = (props) => {
             <ToDo toDo={{note: newText || toDo.note, date: formattedDate || toDo.date}}/>
 
             <Button text={'finish'} function={updateDoc} />
+            
+            <Button text={'Delete To-do'} function={() => {
+                deleteFromFirebase(toDo.id)
+                goBackToHome()
+                }} />
+
+            
 
         </View>
     )

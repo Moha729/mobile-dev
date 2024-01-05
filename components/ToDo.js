@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 const ToDo = (props) => {
 
     const goToEdit = () => {
-        props.navigation.navigate('EditToDo', { toDo: props.toDo})
+        props.navigation.navigate('EditToDo', { toDo: props.toDo, navigation: props.navigation}, )
     }
     return (
         <TouchableOpacity onPress={goToEdit}>
