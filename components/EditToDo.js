@@ -27,14 +27,16 @@ const EditToDo = (props) => {
         const id = toDo.id
         let note = newText || toDo.note
         let date = formattedDate || toDo.date
-        //let done = doneDate || toDo?.doneDate
+        let done = doneDate || toDo.doneDate 
 
-        updateToFirebase(id, note, date)
+        updateToFirebase(id, note, date, done)
 
         goBackToHome()
     }
 
-    const setAsDone = () => {}
+/*     const setAsDone = () => {
+        setAsDone()
+    } */
 
     return (
         <View style={styles.background}>
@@ -44,9 +46,11 @@ const EditToDo = (props) => {
             
             <DatePicker buttonText={'Change date'} setFormattedDate={setFormattedDate} />
 
-            <ToDo toDo={{note: newText || toDo.note, date: formattedDate || toDo.date}}/>
+            <ToDo toDo={{note: newText || toDo.note, date: formattedDate || toDo.date, done: doneDate || toDo.done}}/>
 
             <Button text={'finish'} function={updateDoc} />
+
+            <DatePicker buttonText={'Set as done'} setFormattedDate={setDoneDate} />
             
             <Button text={'Delete To-do'} function={() => {
                 deleteFromFirebase(toDo.id)

@@ -49,7 +49,10 @@ const NewTodoForm = (props) => {
                 <>
                     <ToDo toDo={{note: toDoText, date: formattedDate}}/>
 
-                    <Button text={'finish'} function={() => addToFirebase(toDoText, formattedDate)} />
+                    <Button text={'finish'} function={() => {
+                        addToFirebase(toDoText, formattedDate)
+                        props.setShowNewToDo(false)
+                        }} />
                 </>
             )}
 

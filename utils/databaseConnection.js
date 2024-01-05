@@ -9,11 +9,11 @@ const addToFirebase = async (toDoText, toDoDate) => {
     })
 }
 
-const updateToFirebase = async (toDoId, toDoText, toDoDate) => {
+const updateToFirebase = async (toDoId, toDoText, toDoDate, doneDate) => {
     await updateDoc(doc(database, 'notes', toDoId), {
         note: toDoText,
-        date: toDoDate
-        //done: doneDate
+        date: toDoDate,
+        done: doneDate
     })
 }
 

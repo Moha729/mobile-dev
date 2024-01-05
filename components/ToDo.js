@@ -7,10 +7,10 @@ const ToDo = (props) => {
     }
     return (
         <TouchableOpacity onPress={goToEdit}>
-            <View style={styles.toDoWrapper}>
+            <View style={[styles.toDoWrapper, props.toDo.done  && {backgroundColor: '#3CB371'}]}>
                 <Text style={styles.toDoTitle}>{props.toDo.note}</Text>
                 <Text style={styles.scheduledDate}>Scheduled to: {props.toDo.date}</Text>
-                {props.toDo.doneAt && (<Text>Done at: {props.toDo.doneAt} </Text>)}
+                {props.toDo.done && (<Text style={styles.doneDate}>Done at: {props.toDo.done} </Text>)}
             </View>
         </TouchableOpacity>
     )
@@ -38,6 +38,12 @@ const styles = StyleSheet.create({
         marginTop: 5,
         color: '#4B0082',
         fontSize: 17,
+        fontWeight: '400',
+        fontStyle: 'italic',
+    },
+    doneDate: {
+        color: '#4B0082',
+        fontSize: 16,
         fontWeight: '400',
         fontStyle: 'italic',
     }
